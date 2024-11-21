@@ -26,4 +26,9 @@ class Movie extends Model
         return $this->belongsTo(Rating::class, 'rating_fk', 'rating_id');
     }
 
+    public function getImage()
+    {
+        return asset('storage/'.$this->cover);
+    }
+
 }

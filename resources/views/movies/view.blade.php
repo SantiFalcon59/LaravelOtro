@@ -10,7 +10,7 @@
             <div class="d-flex gap-3 align-items-start">
                 <div class="col-3">
                     @if ($movie->cover)
-                        <img src="{{ Storage::url($movie->cover) }}"
+                        <img src="{{ $movie->getImage() }}"
                         alt="{{ $movie->title }}"
                         class="img-fluid">
                     @else

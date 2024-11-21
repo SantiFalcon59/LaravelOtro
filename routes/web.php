@@ -92,7 +92,3 @@ Route::post('iniciar-sesion', [App\Http\Controllers\AuthController::class, 'auth
 Route::post('cerrar-sesion', [App\Http\Controllers\AuthController::class, 'logout'])
     ->name('auth.logout');
 
-    Route::get('/register', [App\Http\Controllers\AuthController::class, 'showRegistrationForm'])->name('register');
-    Route::post('/register', [App\Http\Controllers\AuthController::class, 'register'])->name('auth.register');
-    
-

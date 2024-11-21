@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Models\Movie;
 use App\Models\Rating;
+use Illuminate\Support\Facades\Storage;
 
 use Illuminate\Http\Request;
 
@@ -78,6 +79,8 @@ class MovieController extends Controller
     public function update(int $id, Request $request)
     {
         $movie = Movie::findOrFail($id);
+        $input = $request->except(['_token', '_method']);
+        $oldCover = $movie->cover;
 
         $request->validate([
             'title' => 'required|min:2',
@@ -88,7 +91,15 @@ class MovieController extends Controller
             'title.min' => 'el titulo detener al menos :min caracteres'
         ]);
 
-        $movie->update($request->all());
+        if($request->hasFile('cover')){
+            $input['cover'] = $request->file('cover')->store('covers', 'public');
+        }
+
+        $movie->update($input);
+
+        if($request->hasFile('cover') && $movie->cover){
+            Storage::delete($oldCover);
+        }
 
         return redirect()
             ->route('movies.index')
@@ -98,7 +109,13 @@ class MovieController extends Controller
     public function destroy(int $id)
     {
         $movie = Movie::findOrFail($id);
+
         $movie->delete();
+
+        if($movie->cover){
+            Storage::delete($movie->cover);
+        }
+
 
         return redirect()
             ->route('movies.index')

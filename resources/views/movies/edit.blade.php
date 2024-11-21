@@ -109,6 +109,20 @@
 
                 </div>
                 <div class="mb-3">
+                    <p>Portada actual</p>
+                    @if ($movie->cover)
+                        <img
+                            src="{{ $movie->getImage() }}"
+                            alt="{{ $movie->title }}"
+                            class="img-fluid"
+                            style="max-width: 300px"
+                        >
+
+                    @else
+                        <p>Sin portada</p>
+                    @endif
+                </div>
+                <div class="mb-3">
                     <label for="cover" class="form-label"></label>
                     <input name="cover" id="cover" class="form-control" type="file">
                 </div>
